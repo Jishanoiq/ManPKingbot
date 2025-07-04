@@ -29,8 +29,7 @@ def add_balance(user_id, amount):
 
 def get_balance(user_id):
     cursor.execute("SELECT balance FROM users WHERE user_id=?", (user_id,))
-    result = cursor.fetchone()
-    return result[0] if result else 0
+    return cursor.fetchone()[0] if cursor.fetchone() else 0
 
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
@@ -52,7 +51,8 @@ async def check_balance(message: types.Message):
 @dp.message_handler(commands=['referral'])
 async def referral_link(message: types.Message):
     user_id = message.from_user.id
-    await message.reply(f"🔗 Your referral link: https://t.me/ManPKing_bot?start={user_id}")
+    link = f"https://t.me/ManPKing_bot?start={user_id}"
+    await message.reply(f"🔗 Your referral link: {link}")
 
 @dp.message_handler(commands=['withdraw'])
 async def withdraw_request(message: types.Message):
